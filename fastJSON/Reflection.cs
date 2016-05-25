@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Reflection;
 using System.Collections;
-#if !SILVERLIGHT
 using System.Data;
-#endif
 using System.Collections.Specialized;
 
 namespace fastJSON
@@ -27,18 +25,15 @@ namespace fastJSON
         DateTime,
         Enum,
         Guid,
-
         Array,
         ByteArray,
         Dictionary,
         StringKeyDictionary,
         NameValue,
         StringDictionary,
-#if !SILVERLIGHT
         Hashtable,
         DataSet,
         DataTable,
-#endif
         Custom,
         Unknown,
     }
@@ -217,11 +212,9 @@ namespace fastJSON
                 else
                     d_type = myPropInfoType.Dictionary;
             }
-#if !SILVERLIGHT
             else if (t == typeof(Hashtable)) d_type = myPropInfoType.Hashtable;
             else if (t == typeof(DataSet)) d_type = myPropInfoType.DataSet;
             else if (t == typeof(DataTable)) d_type = myPropInfoType.DataTable;
-#endif
             else if (customType)
                 d_type = myPropInfoType.Custom;
 

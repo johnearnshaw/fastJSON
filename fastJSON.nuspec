@@ -11,9 +11,7 @@
         <description>smallest, fastest polymorphic JSON serializer</description>
     </metadata>
     <files>
-        <file src="output\net35\fastjson.dll" target="lib\net20\fastjson.dll" />
-        <file src="output\net35\fastjson.dll" target="lib\net35\fastjson.dll" />
-	    <file src="output\net40\fastjson.dll" target="lib\net40\fastjson.dll" />
+        <file src="output\net40\fastjson.dll" target="lib\net40\fastjson.dll" />
 		<file src="history.txt" target="lib\history.txt" />
 		<file src="readme.md" target="lib\readme.md" />
     </files>

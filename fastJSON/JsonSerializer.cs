@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-#if !SILVERLIGHT
 using System.Data;
-#endif
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -85,19 +83,19 @@ namespace fastJSON
                 obj.GetType().IsGenericType && obj.GetType().GetGenericArguments()[0] == typeof(string))
 
                 WriteStringDictionary((IDictionary)obj);
-#if net4
+
             else if (_params.KVStyleStringDictionary == false && obj is System.Dynamic.ExpandoObject)
                 WriteStringDictionary((IDictionary<string, object>)obj);
-#endif
+
             else if (obj is IDictionary)
                 WriteDictionary((IDictionary)obj);
-#if !SILVERLIGHT
+
             else if (obj is DataSet)
                 WriteDataset((DataSet)obj);
 
             else if (obj is DataTable)
                 this.WriteDataTable((DataTable)obj);
-#endif
+
             else if (obj is byte[])
                 WriteBytes((byte[])obj);
 
@@ -196,11 +194,7 @@ namespace fastJSON
 
         private void WriteBytes(byte[] bytes)
         {
-#if !SILVERLIGHT
             WriteStringFast(Convert.ToBase64String(bytes, 0, bytes.Length, Base64FormattingOptions.None));
-#else
-            WriteStringFast(Convert.ToBase64String(bytes, 0, bytes.Length));
-#endif
         }
 
         private void WriteDateTime(DateTime dateTime)
@@ -233,7 +227,6 @@ namespace fastJSON
             _output.Append('\"');
         }
 
-#if !SILVERLIGHT
         private DatasetSchema GetSchema(DataTable ds)
         {
             if (ds == null) return null;
@@ -343,7 +336,6 @@ namespace fastJSON
             // end datatable
             this._output.Append('}');
         }
-#endif
 
         bool _TypesWritten = false;
         private void WriteObject(object obj)

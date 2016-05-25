@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-#if !SILVERLIGHT
 using System.Data;
-#endif
 using System.Globalization;
 using System.IO;
 using System.Collections.Specialized;
@@ -162,7 +160,6 @@ namespace fastJSON
         {
             return new JsonParser(json).Decode();
         }
-#if net4
         /// <summary>
         /// Create a .net4 dynamic object from the json string
         /// </summary>
@@ -172,7 +169,6 @@ namespace fastJSON
         {
             return new DynamicJson(json);
         }
-#endif
         /// <summary>
         /// Create a typed generic object from the json
         /// </summary>
@@ -357,12 +353,10 @@ namespace fastJSON
             object o = new JsonParser(json).Decode();
             if (o == null)
                 return null;
-#if !SILVERLIGHT
             if (type != null && type == typeof(DataSet))
                 return CreateDataset(o as Dictionary<string, object>, null);
             else if (type != null && type == typeof(DataTable))
                 return CreateDataTable(o as Dictionary<string, object>, null);
-#endif
             if (o is IDictionary)
             {
                 if (type != null && t == typeof(Dictionary<,>)) // deserialize a dictionary
@@ -543,12 +537,10 @@ namespace fastJSON
             }
 
             bool found = d.TryGetValue("$type", out tn);
-#if !SILVERLIGHT
             if (found == false && type == typeof(System.Object))
             {
                 return d;   // CreateDataset(d, globaltypes);
             }
-#endif
             if (found)
             {
                 if (_usingglobals)
@@ -618,11 +610,9 @@ namespace fastJSON
                                 // what about 'else'?
                                 break;
                             case myPropInfoType.ByteArray: oset = Convert.FromBase64String((string)v); break;
-#if !SILVERLIGHT
                             case myPropInfoType.DataSet: oset = CreateDataset((Dictionary<string, object>)v, globaltypes); break;
                             case myPropInfoType.DataTable: oset = CreateDataTable((Dictionary<string, object>)v, globaltypes); break;
                             case myPropInfoType.Hashtable: // same case as Dictionary
-#endif
                             case myPropInfoType.Dictionary: oset = CreateDictionary((List<object>)v, pi.pt, pi.GenericTypes, globaltypes); break;
                             case myPropInfoType.StringKeyDictionary: oset = CreateStringKeyDictionary((Dictionary<string, object>)v, pi.pt, pi.GenericTypes, globaltypes); break;
                             case myPropInfoType.NameValue: oset = CreateNV((Dictionary<string, object>)v); break;
@@ -713,11 +703,7 @@ namespace fastJSON
         private object CreateEnum(Type pt, object v)
         {
             // FEATURE : optimize create enum
-#if !SILVERLIGHT
             return Enum.Parse(pt, v.ToString());
-#else
-            return Enum.Parse(pt, v, true);
-#endif
         }
 
         private Guid CreateGuid(string s)
@@ -876,7 +862,6 @@ namespace fastJSON
             return col;
         }
 
-#if !SILVERLIGHT
         private DataSet CreateDataset(Dictionary<string, object> reader, Dictionary<string, object> globalTypes)
         {
             DataSet ds = new DataSet();
@@ -999,7 +984,6 @@ namespace fastJSON
 
             return dt;
         }
-#endif
         #endregion
     }
 
